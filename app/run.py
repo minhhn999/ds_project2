@@ -38,19 +38,24 @@ df = pd.read_sql_table('InsertTableName', engine)
 model_path = parent_dir + '/models/classifier.pkl'
 model = joblib.load(model_path)
 
-
 # index webpage displays cool visuals and receives user input text for model
 @app.route('/')
 @app.route('/index')
 def index():
     
     # extract data needed for visuals
-    # TODO: Below is an example - modify to extract data for your own visuals
-    genre_counts = df.groupby('genre').count()['message']
-    genre_names = list(genre_counts.index)
-    
+    genres = df['genre'].value_counts()
+    genre_names = list(genres.keys())
+    genre_counts = list(genres.values)
+    print(genres.value_counts())
+    print(genre_names)
+    print(genre_counts)
+    categories = df.iloc[:, 4:]
+    categories_names = categories.columns.tolist()
+    categories_sum = categories[categories_names].sum().sort_values(ascending=False)
+    categories_sum_names = categories_sum.index
+    categories_sum_values = categories_sum.values
     # create visuals
-    # TODO: Below is an example - modify to create your own visuals
     graphs = [
         {
             'data': [
@@ -61,12 +66,31 @@ def index():
             ],
 
             'layout': {
-                'title': 'Distribution of Message Genres',
+                'title': 'Distribution of Genres',
                 'yaxis': {
                     'title': "Count"
                 },
                 'xaxis': {
                     'title': "Genre"
+                }
+            }
+        },
+        {
+            'data': [
+                Bar(
+                    x=categories_sum_names,
+                    y=categories_sum_values
+                )
+            ],
+
+            'layout': {
+                'title': 'Distribution Total of Categories Matching',
+                'yaxis': {
+                    'title': "Total"
+                },
+                'xaxis': {
+                    'title': "Categories",
+                    'tickangle': 30
                 }
             }
         }
