@@ -61,24 +61,29 @@ def tokenize(text):
 
 
 def build_model():
+    '''
+    build model to prepare for training
+    '''
     pipeline = Pipeline([
         ('vect', CountVectorizer(tokenizer=tokenize)),
         ('tfidf', TfidfTransformer()),
         ('clf', MultiOutputClassifier(RandomForestClassifier()))
     ])
-#     parameters = {
-#         'vect__ngram_range': ((1, 1), (1, 2)),
-#         'clf__estimator__n_estimators': [50, 100, 200],
-#         'clf__estimator__min_samples_split': [2, 3, 4]
-#     }
-#     cv = GridSearchCV(pipeline, param_grid=parameters,n_jobs=2, verbose=2)
-    return pipeline
+    parameters = {
+        # comment for return quick response.
+        # 'vect__ngram_range': ((1, 1), (1, 2)),
+        # 'clf__estimator__n_estimators': [50, 100, 200],
+        'clf__estimator__min_samples_split': [2, 3, 4]
+    }
+    cv = GridSearchCV(pipeline, param_grid=parameters,n_jobs=2, verbose=2)
+    return cv
 
 
 def evaluate_model(model, X_test, Y_test, category_names):
     '''
     evaludate model and printing classify report.
     '''
+# below comment codes are for testing purposes
 #     Y_pred = model.predict(X_test)
 #     labels = np.unique(Y_pred)
 #     confusion_mat = confusion_matrix(Y_test.argmax(axis=1), Y_pred.argmax(axis=1), labels=labels)
