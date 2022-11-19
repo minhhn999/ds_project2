@@ -17,7 +17,13 @@
 
 ## Project summary
     - Project name: Disaster Response Project
-    - Description: Project is to predict real message to 36 classified categories.
+    - Description: Project is using machine learning pipeline to categorize real messages in disaster event so that user can send the messages to an appropriate disaster relief agency. In the project, there are 3 steps included behind the web app:
+		+ Create ETL pipeline to process data and load them into a database
+		+ Build a machine learning pipeline that classifies messages
+		+ Extract data from the database and use the machine learning model to make classifications. 
+		The project also includes a web app where an emergency worker can input a new message and get classification results in several categories. The web app will also display visualizations of the data.
+
+
 
 ## explanation of files in the repository
     - app folder: contains source code of web app
